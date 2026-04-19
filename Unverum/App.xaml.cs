@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Threading;
-using System.Threading;
 using System;
 
 namespace Unverum
@@ -35,7 +34,7 @@ namespace Unverum
             catch { }
             return running;
         }
-        protected async override void OnStartup(StartupEventArgs e)
+        protected override void OnStartup(StartupEventArgs e)
         {
             ShutdownMode = ShutdownMode.OnMainWindowClose;
 
@@ -46,10 +45,6 @@ namespace Unverum
             if (!running)
             {
                 mw.Show();
-                // Only check for updates if Unverum wasn't launched by 1-click install button
-                if (e.Args.Length == 0)
-                    if (await AutoUpdater.CheckForUnverumUpdate(new CancellationTokenSource()))
-                        mw.Close();
             }
             if (e.Args.Length > 1 && e.Args[0] == "-download")
                 new ModDownloader().Download(e.Args[1], running);
