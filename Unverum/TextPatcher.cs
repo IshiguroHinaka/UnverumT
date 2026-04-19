@@ -139,9 +139,9 @@ namespace Unverum
                 }
             }
         }
-        public static Dictionary<string, Entry> GetEntries()
+        public static Dictionary<string, Entry> GetEntries(string localization)
         {
-            var file = $"{Global.assemblyLocation}{Global.s}Resources{Global.s}{Global.config.CurrentGame}{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{Global.loc}{Global.s}REDGame.uexp";
+            var file = $"{Global.assemblyLocation}{Global.s}Resources{Global.s}{Global.config.CurrentGame}{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{localization}{Global.s}REDGame.uexp";
             if (!File.Exists(file) || !File.Exists(Path.ChangeExtension(file, ".uasset")))
                 return null;
             var bytes = File.ReadAllBytes(file);
@@ -182,15 +182,12 @@ namespace Unverum
             }
             return dict;
         }
-        public static void WriteToFile(Dictionary<string, Entry> dict)
+        public static void WriteToFile(Dictionary<string, Entry> dict, string localization)
         {
-            // Delete previous text files if they exist
-            if (Directory.Exists($"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED"))
-                Directory.Delete($"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED", true);
-            var inputUexp = $"{Global.assemblyLocation}{Global.s}Resources{Global.s}{Global.config.CurrentGame}{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{Global.loc}{Global.s}REDGame.uexp";
-            var inputUasset = $"{Global.assemblyLocation}{Global.s}Resources{Global.s}{Global.config.CurrentGame}{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{Global.loc}{Global.s}REDGame.uasset";
-            var outputUexp = $"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{Global.loc}{Global.s}REDGame.uexp";
-            var outputUasset = $"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{Global.loc}{Global.s}REDGame.uasset";
+            var inputUexp = $"{Global.assemblyLocation}{Global.s}Resources{Global.s}{Global.config.CurrentGame}{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{localization}{Global.s}REDGame.uexp";
+            var inputUasset = $"{Global.assemblyLocation}{Global.s}Resources{Global.s}{Global.config.CurrentGame}{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{localization}{Global.s}REDGame.uasset";
+            var outputUexp = $"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{localization}{Global.s}REDGame.uexp";
+            var outputUasset = $"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED{Global.s}Content{Global.s}Localization{Global.s}{localization}{Global.s}REDGame.uasset";
             var bytes = File.ReadAllBytes(inputUexp).ToList();
             bytes.RemoveRange(54, bytes.Count - 54);
             // Append dictionary of entries

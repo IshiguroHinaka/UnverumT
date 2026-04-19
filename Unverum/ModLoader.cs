@@ -154,7 +154,7 @@ namespace Unverum
             if (filesFound == 0)
                 Global.logger.WriteLine($"Couldn't find {file} within {path}", LoggerType.Warning);
         }
-        private static void PakFiles(string path, string output, string sig)
+        private static void PakFiles(string path, string output, string sig, string pakName = "Unverum_9_P.pak")
         {
             ProcessStartInfo startInfo = new ProcessStartInfo();
             startInfo.CreateNoWindow = true;
@@ -162,14 +162,14 @@ namespace Unverum
             startInfo.FileName = $"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}u4pak.exe";
             startInfo.WindowStyle = ProcessWindowStyle.Hidden;
             startInfo.WorkingDirectory = $"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak";
-            startInfo.Arguments = $"pack \"{output}{Global.s}Unverum_9_P.pak\" {path}";
+            startInfo.Arguments = $"pack \"{output}{Global.s}{pakName}\" {path}";
             using (Process process = new Process())
             {
                 process.StartInfo = startInfo;
                 process.Start();
                 process.WaitForExit();
             }
-            var pak = $"{output}{Global.s}Unverum_9_P.pak";
+            var pak = $"{output}{Global.s}{pakName}";
             if (File.Exists(pak))
             {
                 if (sig != null)
@@ -184,6 +184,29 @@ namespace Unverum
             }
             else
                 Global.logger.WriteLine($"Failed to create pak!", LoggerType.Error);
+        }
+        private static string SanitizePakName(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+                return "Unverum_TextPatch";
+            var invalidChars = Path.GetInvalidFileNameChars();
+            var sanitized = new string(name
+                .Where(c => !invalidChars.Contains(c))
+                .Select(c => Char.IsWhiteSpace(c) ? '_' : c)
+                .ToArray())
+                .Trim('_', '.');
+            return String.IsNullOrWhiteSpace(sanitized) ? "Unverum_TextPatch" : sanitized;
+        }
+        private static string GetTextPatchPakName(HashSet<string> modNames)
+        {
+            if (modNames == null || modNames.Count == 0)
+                return "Unverum_9.pak";
+
+            if (modNames.Count == 1)
+                return $"{SanitizePakName(modNames.First())}.pak";
+
+            var sortedNames = modNames.OrderBy(x => x, StringComparer.OrdinalIgnoreCase).ToList();
+            return $"{SanitizePakName(sortedNames[0])}_and_{modNames.Count - 1}_more.pak";
         }
         // Incrementally rename DBColorZ duplicate jsons
         private static string GetUniqueColorFileName(string filePath)
@@ -249,7 +272,8 @@ namespace Unverum
         public static void Build(string path, List<Mod> mods, bool? patched, string movies, string splash, string sound)
         {
             var missing = false;
-            Dictionary<string, Entry> entries = null;
+            Dictionary<string, Dictionary<string, Entry>> localizedEntries = new();
+            HashSet<string> textPatchModNames = new();
             HashSet<string> db = null;
             List<string> JsonFiles = null;
             string prmFilePaths = String.Empty;
@@ -392,20 +416,11 @@ namespace Unverum
                             {
                                 if (missing)
                                     continue;
+                                textPatchModNames.Add(mod.name);
                                 var pakName = Global.config.CurrentGame.Equals("DNF Duel", StringComparison.InvariantCultureIgnoreCase) ? "RED-WindowsNoEditor.pak" : "pakchunk0-WindowsNoEditor.pak";
                                 var text = File.ReadAllText(file);
 
-                                set_localization(text);
-
-                                if (entries == null && TextPatcher.ExtractBaseFiles(pakName, $"RED/Content/Localization/{Global.loc}/REDGame",
-                                        $"RED{Global.s}Content{Global.s}Localization{Global.s}{Global.loc}{Global.s}REDGame.uexp"))
-                                    entries = TextPatcher.GetEntries();
-                                // Check if entries are still null
-                                if (entries == null)
-                                {
-                                    missing = true;
-                                    continue;
-                                }
+                                var localizations = get_localizations(text);
 
                                 TextEntries replacements;
                                 try
@@ -417,9 +432,36 @@ namespace Unverum
                                     Global.logger.WriteLine(e.Message, LoggerType.Error);
                                     continue;
                                 }
-                                foreach (var replacement in replacements.Entries)
+                                if (replacements?.Entries == null)
                                 {
-                                    entries = TextPatcher.ReplaceEntry(replacement, entries);
+                                    Global.logger.WriteLine($"No text replacement entries found in {file}", LoggerType.Warning);
+                                    continue;
+                                }
+
+                                foreach (var localization in localizations)
+                                {
+                                    if (!localizedEntries.TryGetValue(localization, out Dictionary<string, Entry> entries))
+                                    {
+                                        if (!TextPatcher.ExtractBaseFiles(pakName, $"RED/Content/Localization/{localization}/REDGame",
+                                                $"RED{Global.s}Content{Global.s}Localization{Global.s}{localization}{Global.s}REDGame.uexp"))
+                                        {
+                                            missing = true;
+                                            continue;
+                                        }
+                                        entries = TextPatcher.GetEntries(localization);
+                                        // Check if entries are still null
+                                        if (entries == null)
+                                        {
+                                            missing = true;
+                                            continue;
+                                        }
+                                    }
+
+                                    foreach (var replacement in replacements.Entries)
+                                    {
+                                        entries = TextPatcher.ReplaceEntry(replacement, entries);
+                                    }
+                                    localizedEntries[localization] = entries;
                                 }
                                 break;
                             }
@@ -486,10 +528,16 @@ namespace Unverum
                 File.WriteAllLines(modsFile, lines);
             }
             // Create pak if text was patched
-            if (entries != null)
+            if (localizedEntries.Count > 0)
             {
-                // Write uasset/uexp
-                TextPatcher.WriteToFile(entries);
+                // Delete previous text files if they exist
+                if (Directory.Exists($"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED"))
+                    Directory.Delete($"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED", true);
+                // Write uasset/uexp for each localization
+                foreach (var localization in localizedEntries.Keys)
+                {
+                    TextPatcher.WriteToFile(localizedEntries[localization], localization);
+                }
 
                 var priorityName = String.Empty;
                 foreach (var tilde in Enumerable.Range(0, tildes))
@@ -498,7 +546,7 @@ namespace Unverum
                 var folder = $"{path}{Global.s}{priorityName}";
                 Directory.CreateDirectory(folder);
 
-                PakFiles("RED", folder, sig);
+                PakFiles("RED", folder, sig, GetTextPatchPakName(textPatchModNames));
                 // Delete loose files
                 Directory.Delete($"{Global.assemblyLocation}{Global.s}Dependencies{Global.s}u4pak{Global.s}RED", true);
             }
@@ -596,28 +644,43 @@ namespace Unverum
             }
             Global.logger.WriteLine("Finished building!", LoggerType.Info);
         }
-        private static bool set_localization(string text)
+        private static List<string> get_localizations(string text)
         {
-            //Look for language to modify
+            List<string> localizations = new();
+            //Look for language(s) to modify
             var jsonText = JsonNode.Parse(text);
             if (jsonText?["language"] != null)
             {
-                var loc = jsonText["language"]?.ToString();
-                //For now we can only edit one language, it can be changed in the future
-                if (Global.loc != "" && Global.loc != loc)
+                if (jsonText["language"] is JsonArray languageArray)
                 {
-                    Global.logger.WriteLine($"Language modification was set on {Global.loc}, {loc} will be ignored", LoggerType.Warning);
-                    return false;
+                    foreach (var language in languageArray)
+                    {
+                        var loc = language?.ToString()?.Trim();
+                        if (!String.IsNullOrEmpty(loc) && !localizations.Contains(loc))
+                            localizations.Add(loc);
+                    }
+                    Global.logger.WriteLine($"'language' key found with {localizations.Count} value(s) for Text Patching: {String.Join(", ", localizations)}", LoggerType.Info);
                 }
-                Global.loc = loc;
-                Global.logger.WriteLine($"'language' key found with {Global.loc} value for Text Patching", LoggerType.Info);
+                else
+                {
+                    var loc = jsonText["language"]?.ToString()?.Trim();
+                    if (!String.IsNullOrEmpty(loc))
+                        localizations.Add(loc);
+                    Global.logger.WriteLine($"'language' key found with {String.Join(", ", localizations)} value for Text Patching", LoggerType.Info);
+                }
             }
             else
             {
-                Global.loc = "INT";
-                Global.logger.WriteLine($"No 'language' key found. Default language set to {Global.loc}", LoggerType.Error);
+                localizations.Add("INT");
+                Global.logger.WriteLine($"No 'language' key found. Default language set to INT", LoggerType.Error);
             }
-            return true;
+
+            if (!localizations.Any())
+            {
+                localizations.Add("INT");
+                Global.logger.WriteLine($"No valid language values found. Default language set to INT", LoggerType.Warning);
+            }
+            return localizations;
         }
     }
 }
