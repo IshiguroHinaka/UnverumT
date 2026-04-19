@@ -387,6 +387,7 @@ namespace Unverum
                                     || Global.config.CurrentGame.Equals("Guilty Gear -Strive-", StringComparison.InvariantCultureIgnoreCase)
                                     || Global.config.CurrentGame.Equals("Granblue Fantasy Versus", StringComparison.InvariantCultureIgnoreCase)
                                     || Global.config.CurrentGame.Equals("Granblue Fantasy Versus Rising", StringComparison.InvariantCultureIgnoreCase)
+                                    || Global.config.CurrentGame.Equals("Granblue Fantasy Versus Rising Free Edition", StringComparison.InvariantCultureIgnoreCase)
                                     || Global.config.CurrentGame.Equals("DNF Duel", StringComparison.InvariantCultureIgnoreCase)))
                             {
                                 if (missing)

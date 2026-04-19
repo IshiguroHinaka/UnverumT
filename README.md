@@ -6,6 +6,7 @@ Unverum Mod Manager is a tool that allows gamers to download, install, and manag
 - My Hero One's Justice 2
 - Granblue Fantasy: Versus
 - Granblue Fantasy Versus: Rising
+- Granblue Fantasy Versus: Rising Free Edition
 - Guilty Gear -Strive
 - Jump Force
 - Kingdom Hearts III
@@ -79,7 +80,7 @@ Unverum automatically installs DeathChaos's costume patches for Dragon Ball Figh
 Unverum is also capable of installing UE4SS mods. Anything in a LogicMods folder will go in the proper LogicMods folder location and anything in a `ue4ss` folder will go in the proper ../Binaries/Win64/Mods folder. The mods.txt file in the mods folder will also be automatically edited to enable all of the added mods.
 
 ## Text Patching
-As of v1.2.0, Unverum now supports modularly patching specific parts of REDAsset.uexp/uasset which contains all the text for Dragon Ball FighterZ, Guilty Gear -STRIVE-, Granblue Fantasy: Versus, Granblue Fantasy Versus: Rising, and DNF Duel.  Unverum looks for a text.json in each mod folder. 
+As of v1.2.0, Unverum now supports modularly patching specific parts of REDAsset.uexp/uasset which contains all the text for Dragon Ball FighterZ, Guilty Gear -STRIVE-, Granblue Fantasy: Versus, Granblue Fantasy Versus: Rising, Granblue Fantasy Versus: Rising Free Edition, and DNF Duel.  Unverum looks for a text.json in each mod folder. 
 
 An example of how it's setup would be:
 ```
