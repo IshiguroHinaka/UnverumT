@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:fa5="http://schemas.fontawesome.com/icons/"
-        Background="#131313"
+        Background="#1b1220"
         Title="Unverum" SizeChanged="OnResize"
         mc:Ignorable="d" Closing="Window_Closing" WindowStartupLocation="CenterScreen"
         Height="750" Width="1280" MinHeight="750" MinWidth="1280" Loaded="WindowLoaded" KeyDown="Window_KeyDown">
@@ -99,7 +99,7 @@
                             <TextBlock Margin="10" Text="{Binding Path=Title}" Foreground="#f2f2f2" FontWeight="Medium" FontSize="18" VerticalAlignment="Center" />
                         </Border>
                     </Popup>
-                    <fa5:ImageAwesome Name="LoadingBar" Foreground="#006ac1" Grid.Row="0" Icon="Solid_Spinner" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
+                    <fa5:ImageAwesome Name="LoadingBar" Foreground="#d66ab8" Grid.Row="0" Icon="Solid_Spinner" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
                     <StackPanel Grid.Row="2" Margin="10,-5,10,5" Orientation="Horizontal">
                         <Image VerticalAlignment="Center" Source="{Binding Path=Owner.Avatar}" Margin="0,0,10,0" Height="35"/>
                         <TextBlock VerticalAlignment="Center" Foreground="#909090" Text="{Binding Path=Owner.Name}">
@@ -354,7 +354,7 @@
             </StackPanel>
             <TextBox BorderThickness="0" FontSize="18" Margin="5" Background="Transparent" BorderBrush="Transparent" IsReadOnly="True" Foreground="#f2f2f2" FontWeight="Medium" Name="Stats" />
         </StackPanel>
-        <TabControl Grid.ColumnSpan="5" Background="#202020" BorderBrush="#353535">
+        <TabControl Grid.ColumnSpan="5" Background="#2a1a31" BorderBrush="#353535">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="Template">
@@ -367,7 +367,7 @@
                                     <Border x:Name="Border"
                                             Width="Auto" MinWidth="100" MinHeight="30"
                                             VerticalAlignment="Bottom"
-                                            Background="#1d1d1d" BorderBrush="#353535" BorderThickness="0,0,0,0" CornerRadius="6,6,0,0"
+                                            Background="#341f3b" BorderBrush="#353535" BorderThickness="0,0,0,0" CornerRadius="6,6,0,0"
                                             Cursor="Hand">
                                         <ContentPresenter x:Name="ContentSite"
                                                           Width="Auto" Height="Auto"
@@ -380,13 +380,13 @@
                                      Value="True">
                                         <Setter TargetName="Border"
                                         Property="Background"
-                                        Value="#353535" />
+                                        Value="#6b4c74" />
                                     </Trigger>
                                     <Trigger Property="IsSelected"
                                      Value="True">
                                         <Setter TargetName="Border"
                                         Property="Background"
-                                        Value="#353535" />
+                                        Value="#6b4c74" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -570,15 +570,15 @@
                           EnableColumnVirtualization="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False"
                           CanUserResizeColumns="False" CanUserResizeRows="False" CanUserSortColumns="False" AlternatingRowBackground="#2A2A2A"
                           dd:DragDrop.IsDragSource="True" dd:DragDrop.IsDropTarget="True" HeadersVisibility="Column" 
-                          SelectionMode="Extended" RowBackground="#202020" Foreground="#f2f2f2" LoadingRow="ModGrid_LoadingRow" HorizontalScrollBarVisibility="Hidden"
-                          HorizontalAlignment="Center" Background="#202020" Grid.Column="0" FontSize="12" PreviewKeyDown="ModGrid_PreviewKeyDown"
+                          SelectionMode="Extended" RowBackground="#2a1a31" Foreground="#f2f2f2" LoadingRow="ModGrid_LoadingRow" HorizontalScrollBarVisibility="Hidden"
+                          HorizontalAlignment="Center" Background="#2a1a31" Grid.Column="0" FontSize="12" PreviewKeyDown="ModGrid_PreviewKeyDown"
                           ContextMenuOpening="ModGrid_ContextMenuOpening" SelectionChanged="ModGrid_SelectionChanged">
                                 <DataGrid.Resources>
-                                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#006ac1"/>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#d66ab8"/>
                                     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="#f2f2f2"/>
-                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#006ac1" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="#d66ab8" />
                                     <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="Background" Value="#303030" />
+                                        <Setter Property="Background" Value="#3a243f" />
                                         <Setter Property="Foreground" Value="#f2f2f2"/>
                                         <Setter Property="Height" Value="17"/>
                                         <Setter Property="FontSize" Value="12"/>
@@ -587,7 +587,7 @@
                                 </DataGrid.Resources>
 				<DataGrid.ColumnHeaderStyle>
 					<Style TargetType="DataGridColumnHeader">
-						<Setter Property="Background" Value="#303030" />
+						<Setter Property="Background" Value="#3a243f" />
 						<Setter Property="Foreground" Value="#f2f2f2"/>
 						<Setter Property="Height" Value="17"/>
 						<Setter Property="FontSize" Value="12"/>
@@ -635,15 +635,15 @@
                                     </Image.BitmapEffect>
                                 </Image>
 
-                                <fa5:ImageAwesome Foreground="#006ac1" Grid.Row="0" Icon="Solid_Spinner" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
-                                <RichTextBox FontSize="12" Padding="10" Grid.Row="1" Margin="3,5,10,3" Name="DescriptionWindow" Foreground="#F2F2F2" Background="#202020" BorderBrush="#424242" ClipToBounds="False"
+                                <fa5:ImageAwesome Foreground="#d66ab8" Grid.Row="0" Icon="Solid_Spinner" Height="50" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
+                                <RichTextBox FontSize="12" Padding="10" Grid.Row="1" Margin="3,5,10,3" Name="DescriptionWindow" Foreground="#F2F2F2" Background="#2a1a31" BorderBrush="#424242" ClipToBounds="False"
                      VerticalContentAlignment="Center" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Grid.ColumnSpan="5" IsDocumentEnabled="True"
                              FontWeight="Medium"/>
                             </Grid>
                         </Grid>
                         <GridSplitter Grid.Row="2" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" Height="10" Background="Transparent" />
 
-                        <RichTextBox FontFamily="{StaticResource Monospace}" FontSize="12" Margin="10,3,10,10" Name="ConsoleWindow" Background="#202020" BorderBrush="#424242" ClipToBounds="False" Grid.Row="3" Grid.Column="0" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Grid.ColumnSpan="8" TextChanged="ScrollToBottom">
+                        <RichTextBox FontFamily="{StaticResource Monospace}" FontSize="12" Margin="10,3,10,10" Name="ConsoleWindow" Background="#2a1a31" BorderBrush="#424242" ClipToBounds="False" Grid.Row="3" Grid.Column="0" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Grid.ColumnSpan="8" TextChanged="ScrollToBottom">
                             <RichTextBox.Resources>
                                 <Style TargetType="{x:Type Paragraph}">
                                     <Setter Property="Margin" Value="0" />
@@ -693,7 +693,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="ImageLeft_Click" Name="BigImageLeft" Content="&lt;" Height="50" Width="50" FontWeight="SemiBold" FontSize="20"/>
                                     <Image Grid.Column="1" Name="BigScreenshot" Stretch="Uniform" Margin="20,0,20,0" VerticalAlignment="Center"/>
-                                    <fa5:ImageAwesome Panel.ZIndex="-1" Grid.Column="1" Foreground="#006ac1" Icon="Solid_Spinner" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
+                                    <fa5:ImageAwesome Panel.ZIndex="-1" Grid.Column="1" Foreground="#d66ab8" Icon="Solid_Spinner" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
                                     <Button Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ImageRight_Click" Name="BigImageRight" Content=">" Height="50" Width="50" FontWeight="SemiBold" FontSize="20"/>
                                 </Grid>
                                 <TextBlock Name="BigCaptionText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" FontSize="18" Foreground="#f2f2f2" Padding="5"/>
@@ -740,7 +740,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Button HorizontalAlignment="Right" VerticalAlignment="Center" Click="ImageLeft_Click" Name="ImageLeft" Content="&lt;" Height="50" Width="50" FontWeight="SemiBold" FontSize="20"/>
                                 <Image Grid.Column="1" Cursor="Hand" PreviewMouseLeftButtonDown="Image_Click" Name="Screenshot" Stretch="Uniform" MaxHeight="400" Margin="20,0,20,0" VerticalAlignment="Center"/>
-                                <fa5:ImageAwesome Panel.ZIndex="-1" Grid.Column="1" Foreground="#006ac1" Icon="Solid_Spinner" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
+                                <fa5:ImageAwesome Panel.ZIndex="-1" Grid.Column="1" Foreground="#d66ab8" Icon="Solid_Spinner" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
                                 <Button Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ImageRight_Click" Name="ImageRight" Content=">" Height="50" Width="50" FontWeight="SemiBold" FontSize="20"/>
                             </Grid>
                             <TextBlock Name="CaptionText" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" FontSize="18" Foreground="#f2f2f2" Padding="5"/>
@@ -755,7 +755,7 @@
                                     </Style>
                                 </Button.Resources>
                             </Button>
-                            <Border Name="DownloadButton" Margin="0,0,20,0" Height="50" Width="200" CornerRadius="2" Background="#006ac1">
+                            <Border Name="DownloadButton" Margin="0,0,20,0" Height="50" Width="200" CornerRadius="2" Background="#d66ab8">
                                 <Button Margin="3" Click="Download_Click" Content="Download" IsEnabled="{Binding Path=Compatible}" FontSize="20" FontWeight="SemiBold" Foreground="#f2f2f2">
                                     <Button.Resources>
                                         <Style TargetType="{x:Type Border}">
@@ -963,7 +963,7 @@
                             <ComboBoxItem>50</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
-                    <fa5:ImageAwesome Name="LoadingBar" Grid.ColumnSpan="8" Foreground="#006ac1" Panel.ZIndex="1" Grid.Row="1" Icon="Solid_Spinner" Height="110" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
+                    <fa5:ImageAwesome Name="LoadingBar" Grid.ColumnSpan="8" Foreground="#d66ab8" Panel.ZIndex="1" Grid.Row="1" Icon="Solid_Spinner" Height="110" VerticalAlignment="Center" HorizontalAlignment="Center" Spin="True" SpinDuration="2"/>
                     <StackPanel Name="ErrorPanel" Grid.ColumnSpan="8" Grid.Row="1" Panel.ZIndex="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Name="BrowserMessage" HorizontalAlignment="Center"  Opacity="1" Background="Transparent" Foreground="#f2f2f2" FontWeight="Medium" TextWrapping="Wrap" Width="800" TextAlignment="Center" FontSize="25"/>
                         <Button Margin="10" Click="BrowserRefresh" Name="BrowserRefreshButton" Content="Retry" HorizontalAlignment="center" FontSize="18" FontWeight="Medium"  Height="40" Width="140" Background="#181818" BorderBrush="#252525" Foreground="#f2f2f2">
