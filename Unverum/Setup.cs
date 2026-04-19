@@ -149,27 +149,17 @@ namespace Unverum
             Global.logger.WriteLine($"Setup completed for {Global.config.CurrentGame}!", LoggerType.Info);
             return true;
         }
-        public static bool GBVSR()
+        public static bool GBVSR(string steamId)
         {
             var defaultPath = @"C:\Program Files (x86)\Steam\steamapps\common\Granblue Fantasy Versus Rising\GBVSR.exe";
             try
             {
-                var key = Registry.LocalMachine.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 2157560");
+                var key = Registry.LocalMachine.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App {steamId}");
                 if (!String.IsNullOrEmpty(key.GetValue("InstallLocation") as string))
                     defaultPath = $"{key.GetValue("InstallLocation") as string}{Global.s}GBVSR.exe";
             }
             catch (Exception e)
             {
-                try
-                {
-                    var key = Registry.LocalMachine.OpenSubKey($@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 2667960");
-                    if (!String.IsNullOrEmpty(key.GetValue("InstallLocation") as string))
-                        defaultPath = $"{key.GetValue("InstallLocation") as string}{Global.s}GBVSR.exe";
-                }
-                catch (Exception ex)
-                {
-
-                }
             }
             if (!File.Exists(defaultPath))
             {

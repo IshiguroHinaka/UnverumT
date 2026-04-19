@@ -18,6 +18,7 @@ namespace Unverum
         MHOJ2,
         GBVS,
         GBVSR,
+        GBVSRFE,
         GGS,
         JF,
         KHIII,
@@ -143,6 +144,9 @@ namespace Unverum
                         url += "8897&";
                         break;
                     case GameFilter.GBVSR:
+                        url += "19552&";
+                        break;
+                    case GameFilter.GBVSRFE:
                         url += "19552&";
                         break;
                     case GameFilter.GGS:

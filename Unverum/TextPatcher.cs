@@ -95,6 +95,7 @@ namespace Unverum
                         aes = "0xC846350F8B8D946D00DC58801A81478FFBEE888C8F9CD323A493C64E89B87ECA";
                         break;
                     case "Granblue Fantasy Versus Rising":
+                    case "Granblue Fantasy Versus Rising Free Edition":
                         aes = "0x6470C12A9B471BBA1D89A72D4F9B84EF709A65B88A85F240B8E99CD631751437";
                         break;
                 }

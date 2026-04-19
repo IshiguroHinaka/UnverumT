@@ -105,7 +105,7 @@ namespace Unverum
             else
                 GameBox.SelectedIndex = Global.games.IndexOf(Global.config.CurrentGame);
 
-            if (GameBox.SelectedIndex == 5)
+            if ((GameFilter)GameBox.SelectedIndex == GameFilter.GGS)
                 DiscordButton.Visibility = Visibility.Collapsed;
 
             if (String.IsNullOrEmpty(Global.config.Configs[Global.config.CurrentGame].CurrentLoadout))
@@ -398,7 +398,9 @@ namespace Unverum
                 case GameFilter.GBVS:
                     return Setup.Generic("GBVS.exe", "RED", @"C:\Program Files (x86)\Steam\steamapps\common\Granblue Fantasy Versus\GBVS.exe", steamId: "1090630");
                 case GameFilter.GBVSR:
-                    return Setup.GBVSR();
+                    return Setup.GBVSR("2157560");
+                case GameFilter.GBVSRFE:
+                    return Setup.GBVSR("2667960");
                 case GameFilter.GGS:
                     return Setup.Generic("GGST.exe", "RED", @"C:\Program Files (x86)\Steam\steamapps\common\GUILTY GEAR -STRIVE-\GGST.exe", steamId: "1384160");
                 case GameFilter.JF:
@@ -600,10 +602,10 @@ namespace Unverum
                                 id = "1090630";
                                 break;
                             case GameFilter.GBVSR:
-                                if (!path.ToLowerInvariant().Contains("demo"))
-                                    id = "2157560";
-                                else
-                                    id = "2667960";
+                                id = "2157560";
+                                break;
+                            case GameFilter.GBVSRFE:
+                                id = "2667960";
                                 break;
                             case GameFilter.GGS:
                                 id = "1384160";
@@ -649,7 +651,8 @@ namespace Unverum
                         UseShellExecute = true,
                         Verb = "open"
                     };
-                    if (Global.config.Configs[Global.config.CurrentGame].LauncherOptionIndex == 0 && (GameFilter)GameBox.SelectedIndex == GameFilter.GBVSR)
+                    if (Global.config.Configs[Global.config.CurrentGame].LauncherOptionIndex == 0
+                        && ((GameFilter)GameBox.SelectedIndex == GameFilter.GBVSR || (GameFilter)GameBox.SelectedIndex == GameFilter.GBVSRFE))
                         ps.Arguments = "-fileopenlog";
                     Process.Start(ps);
                 }
@@ -679,6 +682,9 @@ namespace Unverum
                     id = "8897";
                     break;
                 case GameFilter.GBVSR:
+                    id = "19552";
+                    break;
+                case GameFilter.GBVSRFE:
                     id = "19552";
                     break;
                 case GameFilter.GGS:
@@ -732,12 +738,12 @@ namespace Unverum
             {
                 string discordLink;
                 var index = managerSelected ? GameBox.SelectedIndex : GameFilterBox.SelectedIndex;
-                switch (index)
+                switch ((GameFilter)index)
                 {
-                    case 5:
+                    case GameFilter.GGS:
                         discordLink = "https://discord.gg/GVtG3Zu";
                         break;
-                    case 7:
+                    case GameFilter.KHIII:
                         discordLink = "https://discord.gg/Se2XTnA";
                         break;
                     default:
@@ -1897,7 +1903,8 @@ namespace Unverum
                         Index = 1
                     });
                 }
-                else if (Global.config.CurrentGame.Equals("Granblue Fantasy Versus Rising", StringComparison.InvariantCultureIgnoreCase))
+                else if (Global.config.CurrentGame.Equals("Granblue Fantasy Versus Rising", StringComparison.InvariantCultureIgnoreCase)
+                    || Global.config.CurrentGame.Equals("Granblue Fantasy Versus Rising Free Edition", StringComparison.InvariantCultureIgnoreCase))
                 {
                     choices.Add(new Choice()
                     {
@@ -2120,7 +2127,7 @@ namespace Unverum
         {
             if (handle)
             {
-                if (GameBox.SelectedIndex == 5)
+                if ((GameFilter)GameBox.SelectedIndex == GameFilter.GGS)
                     DiscordButton.Visibility = Visibility.Collapsed;
                 else
                     DiscordButton.Visibility = Visibility.Visible;
