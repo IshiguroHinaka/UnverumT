@@ -110,6 +110,8 @@ Note that for each game update, Unverum would have to update the base files used
 
 With this version of Unverum, you can patch the entries of the language you want to change. If you have edited lines from the French version, just add the "language" key with the "FRA" value. Unverum will then replace all lines as usual but for the French language.
 
+You can also provide multiple language values in a single file by using an array, for example `"language": ["CHN", "INT", "CHT"]`. Unverum will apply the same entries to each language listed.
+
 ## FAQ
 ### Are music/splash/movie mods supported?
 Yes. It'll look for .awb, .mp4, .bmp, .uasset, and .usm files to replace within the Content folder.  The files will be replaced only if they have the exact same name.
