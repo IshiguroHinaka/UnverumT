@@ -392,7 +392,7 @@ namespace Unverum
                             {
                                 if (missing)
                                     continue;
-                                var pakName = Global.config.CurrentGame.Equals("DNF Duel", StringComparison.InvariantCultureIgnoreCase) ? "RED-WindowsNoEditor.pak" : "pakchunk1-WindowsNoEditor.pak";
+                                var pakName = Global.config.CurrentGame.Equals("DNF Duel", StringComparison.InvariantCultureIgnoreCase) ? "RED-WindowsNoEditor.pak" : "pakchunk0-WindowsNoEditor.pak";
                                 var text = File.ReadAllText(file);
 
                                 set_localization(text);
