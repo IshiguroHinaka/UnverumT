@@ -127,3 +127,32 @@ Try running as administrator or checking to see if any antivirus is preventing t
 
 ### Why aren't my mods showing up after checking them?
 Please make sure you pressed build after selecting your loadout and before launching the game.
+
+## 本版本 UI 主题说明（简体中文）
+本版本整体 UI 采用偏暗色（Dark）+ 霓虹紫粉点缀的视觉风格，核心特征如下：
+
+- **主背景为深色系**：主窗口背景使用深紫黑色（`#1b1220`），用于降低长时间浏览 Mod 列表时的视觉疲劳。
+- **内容卡片为半透明深灰层**：Mod 卡片与浮层大量使用半透明深灰（例如 `#101010` + Opacity），突出内容并保持层次感。
+- **高亮强调色偏粉紫**：例如加载 Spinner 使用 `#d66ab8`，用于提示“正在加载/刷新”等状态。
+- **正文文本为高对比浅色**：大部分文本使用近白色（`#f2f2f2`），在暗底上保持可读性。
+- **统一字体与控件风格**：默认引入 `Roboto Mono`，并在 `App.xaml` 中集中合并了 `Button` / `ComboBox` / `ScrollViewer` 的样式资源，保证整体观感一致。
+
+简而言之，这套主题是“**深色基底 + 高对比文字 + 轻量霓虹点缀**”的现代工具型风格，重点是清晰、耐看、便于长时间管理 Mod。
+
+## GBVSR 正式版与 Free Edition 是否分开管理
+结论：**是，分开管理（逻辑上是两个独立游戏项）**。
+
+### 具体行为
+- 在游戏枚举中，`GBVSR` 与 `GBVSRFE` 是两个不同值。
+- 主界面下拉框中也分别显示：
+  - `Granblue Fantasy Versus: Rising`
+  - `Granblue Fantasy Versus: Rising Free Edition`
+- Setup 流程会根据你选择的是正式版还是 Free Edition，分别使用不同的 Steam App ID：
+  - 正式版：`2157560`
+  - Free Edition：`2667960`
+- 两者都会走 `Setup.GBVSR(...)` 逻辑并定位 `GBVSR.exe`，因此可执行文件结构兼容；但在 Unverum 配置层面依然以两个游戏名分别存储与管理（例如各自的配置、加载列表、更新检查上下文等）。
+
+### 对用户的实际影响
+- 你可以把正式版和 Free Edition 当作两个独立条目维护。
+- 切换下拉选项时，Unverum 会读取当前所选游戏对应的数据，不会把它们强行混在同一个“当前游戏上下文”里。
+- 如果你同时使用两个版本，建议分别维护各自的 Mod 组合与启用顺序，避免混淆。
