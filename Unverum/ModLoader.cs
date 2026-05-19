@@ -48,21 +48,10 @@ namespace Unverum
                     RestoreDirectory(splash);
                 if (!String.IsNullOrEmpty(sound) && Directory.Exists(sound))
                     RestoreDirectory(sound);
-                // Remove UE4SS Files
-                var LogicModsFolder = $"{Path.GetDirectoryName(path)}{Global.s}LogicMods";
-                var Win64Folder = $"{Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(path)))}{Global.s}Binaries{Global.s}Win64";
-                var ue4ssModsFolder = $"{Win64Folder}{Global.s}Mods";
-                List<string> ue4ssFiles = new() { "opengl32.dll", "patternsleuth_bind.dll", "ue4ss.dll", "UE4SS-settings.ini", "dwmapi.dll" };
-                foreach (var ue4ssFile in ue4ssFiles)
-                {
-                    var file = $"{Win64Folder}{Global.s}{ue4ssFile}";
-                    if (File.Exists(file))
-                        File.Delete(file);
-                }
-                if (Directory.Exists(ue4ssModsFolder))
-                    Directory.Delete(ue4ssModsFolder, true);
-                if (Directory.Exists(LogicModsFolder))
-                    Directory.Delete(LogicModsFolder, true);
+                // Keep UE4SS install and mods intact between builds.
+                // Build output should only reset the configured ~mods directory and
+                // backup-restored loose content folders (movie/splash/sound).
+                // This avoids wiping user-managed files in RED/Binaries/Win64.
                 Global.logger.WriteLine("Restored folders", LoggerType.Info);
             }
             catch (Exception e)
